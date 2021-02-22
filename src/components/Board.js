@@ -3,25 +3,37 @@ import Square from "./Square";
 
 function Board(props) {
   function renderSquare(i) {
-    return <Square value={props.squares[i]} onClick={() => props.onClick(i)} />;
+    return (
+      <Square
+        key={i}
+        value={props.squares[i]}
+        onClick={() => props.onClick(i)}
+      />
+    );
   }
 
-  function setSquares(start) {
+  function setSquares(row) {
     let cols = [];
-    for (let i = 0; i < props.cols; i++) {
-      cols.push(renderSquare((start + 1) * props.cols + i));
+    let count = row * props.cols;
+    for (let col = 0; col < props.cols; col++) {
+      cols.push(renderSquare(count));
+      count++;
     }
     return cols;
   }
 
-  function renderRow(start) {
-    return <div className="board-row">{setSquares(start)}</div>;
+  function renderRow(row) {
+    return (
+      <div key={row} className="board-row">
+        {setSquares(row)}
+      </div>
+    );
   }
 
   function setRows() {
     let rows = [];
-    for (let i = 0; i < props.rows; i++) {
-      rows.push(renderRow(i));
+    for (let row = 0; row < props.rows; row++) {
+      rows.push(renderRow(row));
     }
     return rows;
   }
